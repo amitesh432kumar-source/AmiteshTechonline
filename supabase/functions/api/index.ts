@@ -152,8 +152,7 @@ const S: Record<string, (u: User | null, b: any) => Promise<unknown>> = {
     if (kind === "course") {
       const c = q(await sb.from("courses").select("*").eq("id", id).eq("published", true).maybeSingle()) as any;
       if (!c) throw new Fail("Course not found", 404);
-      const s = await settings();
-      if (priceAfter(c, s) > 0 || c.is_paid) { const u = need(u0); if (!(await enrolled(u, "course", id))) throw new Fail("Payment not approved yet", 403); }
+      if (c.is_paid) { const u = need(u0); if (!(await enrolled(u, "course", id))) throw new Fail("Payment not approved yet", 403); }
       const lessons = q(await sb.from("course_lessons").select("id,position,title,kind,url").eq("course_id", id).order("position"));
       return { lessons };
     }
@@ -220,7 +219,7 @@ const S: Record<string, (u: User | null, b: any) => Promise<unknown>> = {
     const ex = q(await sb.from("community_likes").select("post_id").eq("post_id", id).eq("email", u.email).limit(1)) as any[];
     if (ex.length) q(await sb.from("community_likes").delete().eq("post_id", id).eq("email", u.email));
     else q(await sb.from("community_likes").insert({ post_id: id, email: u.email }));
-    const n = q(await sb.from("community_likes").select("post_id", { count: "exact", head: false }).eq("post_id", id)) as any[];
+    const n = q(await sb.from("community_likes").select("post_id").eq("post_id", id)) as any[];
     return { liked: !ex.length, likes: n.length };
   },
 
