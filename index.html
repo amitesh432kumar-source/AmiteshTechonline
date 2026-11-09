@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amitesh Tech – Learn AI in Simple Hindi &amp; English</title>
+<meta name="description" content="Amitesh Tech: learn AI in simple Hindi and English through live classes on Google Meet, recorded video courses and a members-only community.">
+<meta name="theme-color" content="#0b2545">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b2545'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' font-family='serif' font-weight='700' fill='%23e0b84c'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b2545; --navy-d:#081a33; --gold:#e0b84c; --gold-b:#f6c453; --white:#fff;
+  --bg:#f7f8fb; --ink:#14213d; --muted:#5a6580; --line:#e3e7ef; --ok:#1a7f4b; --bad:#b3261e;
+  --r:14px; --sh:0 4px 18px rgba(11,37,69,.08);
+  --serif:"Playfair Display",Georgia,serif; --sans:"Noto Sans","Noto Sans Devanagari",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.6 var(--sans);color:var(--ink);background:var(--bg);overflow-x:hidden}
+img,video{max-width:100%}
+a{color:var(--navy)}
+h1,h2,h3{font-family:var(--serif);color:var(--navy);line-height:1.2;margin:0 0 .5em}
+h1{font-size:clamp(1.9rem,6vw,3.2rem)} h2{font-size:clamp(1.4rem,4vw,2rem)} h3{font-size:1.2rem}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.sr{position:absolute;left:-9999px}
+:focus-visible{outline:3px solid var(--gold-b);outline-offset:2px}
+
+/* header */
+.promo{background:var(--gold);color:var(--navy-d);text-align:center;font-weight:600;padding:8px 16px;font-size:.95rem}
+header.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:30}
+.bar{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{font:700 1.35rem var(--serif);color:#fff;text-decoration:none}
+.brand b{color:var(--gold)}
+nav.links{display:flex;gap:4px}
+nav.links a{color:#dbe3f1;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:500;font-size:.95rem}
+nav.links a:hover,nav.links a.on{background:rgba(255,255,255,.1);color:#fff}
+nav.links a.on{color:var(--gold-b)}
+#burger{display:none;background:none;border:0;color:#fff;font-size:1.7rem;padding:6px 10px;cursor:pointer}
+@media(max-width:820px){
+  #burger{display:block}
+  nav.links{display:none;position:absolute;top:60px;left:0;right:0;background:var(--navy-d);flex-direction:column;padding:8px 16px 16px}
+  nav.links.open{display:flex}
+  nav.links a{padding:12px}
+}
+
+/* ui */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:11px 22px;font:600 1rem var(--sans);cursor:pointer;text-decoration:none;background:var(--gold);color:var(--navy-d);transition:transform .15s,background .15s}
+.btn:hover{background:var(--gold-b);transform:translateY(-1px)}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+.btn.navy{background:var(--navy);color:#fff}.btn.navy:hover{background:var(--navy-d)}
+.btn.ghost{background:transparent;border:2px solid var(--navy);color:var(--navy)}
+.btn.wa{background:#1fa855;color:#fff}
+.btn.sm{padding:6px 14px;font-size:.88rem}
+.btn.danger{background:#fbe9e7;color:var(--bad)}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.pad{padding:18px}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.chip{display:inline-block;font-size:.78rem;font-weight:600;padding:2px 10px;border-radius:999px;background:#eef2fa;color:var(--navy)}
+.chip.free{background:#e3f5ea;color:var(--ok)}.chip.gold{background:#fbf1d3;color:#7a5a00}.chip.bad{background:#fbe9e7;color:var(--bad)}
+.muted{color:var(--muted)} .small{font-size:.9rem}
+section.blk{padding:44px 0}
+.center{text-align:center}
+.empty{padding:40px 16px;text-align:center;color:var(--muted)}
+.price s{color:var(--muted);font-weight:400;margin-right:6px}.price b{font-size:1.2rem;color:var(--navy)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.sp{justify-content:space-between}
+
+/* hero */
+.hero{background:linear-gradient(135deg,var(--navy-d),var(--navy) 60%,#16396b);color:#fff;padding:64px 0 72px;position:relative;overflow:hidden}
+.hero h1{color:#fff}.hero h1 em{color:var(--gold-b);font-style:normal}
+.hero p{max-width:620px;color:#d7e0f0;font-size:1.1rem}
+.hero:after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(246,196,83,.35),transparent 70%)}
+.hero .row{margin-top:24px;position:relative;z-index:1}
+.feat{display:flex;gap:14px}.feat i{font-style:normal;font-size:1.8rem}
+details.faq{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+details.faq summary{font-weight:600;cursor:pointer}
+blockquote{margin:0}
+
+/* course cards */
+.thumb{aspect-ratio:16/9;background:linear-gradient(135deg,var(--navy),#1b4a85) center/cover;display:flex;align-items:center;justify-content:center;color:var(--gold-b);font:700 2rem var(--serif)}
+.cardbody{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.cardbody p{margin:0}
+.cc{display:flex;flex-direction:column}
+
+/* about slideshow */
+.about{display:grid;gap:28px;grid-template-columns:1fr}
+@media(min-width:760px){.about{grid-template-columns:1fr 1fr;align-items:center}}
+.slides{position:relative;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;background:var(--navy);box-shadow:var(--sh)}
+.slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease}
+.slides img.on{opacity:1}
+
+/* forms & modal */
+label{display:block;font-weight:600;font-size:.9rem;margin:12px 0 4px}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:1.5px solid #cfd6e4;border-radius:10px;background:#fff;color:var(--ink)}
+input[type=checkbox]{width:auto}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:0}
+.ov{position:fixed;inset:0;background:rgba(8,26,51,.6);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto}
+.modal{background:#fff;border-radius:var(--r);width:100%;max-width:520px;padding:22px;margin:auto;position:relative}
+.modal.wide{max-width:760px}
+.modal .x{position:absolute;right:10px;top:8px;background:none;border:0;font-size:1.6rem;cursor:pointer;color:var(--muted)}
+.qr{display:flex;justify-content:center;padding:12px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.qr svg,.qr img{width:220px;height:220px}
+.timer{font:700 1.3rem var(--serif);color:var(--navy)}
+.timer.low{color:var(--bad)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy-d);color:#fff;padding:12px 20px;border-radius:12px;z-index:90;max-width:90vw;box-shadow:var(--sh);font-weight:500}
+.toast.err{background:var(--bad)}
+.notice{background:#fff8e1;border:1px solid #f0d98a;padding:12px 16px;border-radius:12px;font-size:.92rem}
+.tabs{display:flex;gap:6px;overflow-x:auto;border-bottom:2px solid var(--line);margin-bottom:20px;-webkit-overflow-scrolling:touch}
+.tabs button{background:none;border:0;padding:10px 16px;font:600 .95rem var(--sans);color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button.on{color:var(--navy);border-color:var(--gold)}
+table.t{width:100%;border-collapse:collapse}
+.item{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+.lessonrow{display:grid;grid-template-columns:1fr;gap:6px;border:1px dashed #cfd6e4;border-radius:10px;padding:10px;margin-bottom:8px}
+
+/* community */
+.post{padding:18px;margin-bottom:16px}
+.post.pin{border-color:var(--gold);box-shadow:0 0 0 2px #fbf1d3}
+.post img.pi{border-radius:10px;margin:10px 0;max-height:360px;object-fit:cover;width:100%}
+.act{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.act button{background:#f1f4fa;border:0;border-radius:999px;padding:6px 14px;cursor:pointer;font:600 .9rem var(--sans);color:var(--navy)}
+.heart.on{color:#d6246e}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.5)}100%{transform:scale(1)}}
+.heart.pop span{display:inline-block;animation:pop .35s}
+.cm{border-top:1px solid var(--line);padding:8px 0}
+footer{background:var(--navy-d);color:#b8c3da;padding:28px 0;margin-top:40px;font-size:.92rem}
+footer a{color:var(--gold-b)}
+</style>
+</head>
+<body>
+<div id="promo"></div>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#/">Amitesh <b>Tech</b></a>
+    <button id="burger" aria-label="Open menu" aria-expanded="false">☰</button>
+    <nav class="links" id="nav" aria-label="Main"></nav>
+  </div>
+</header>
+<main id="app" class="wrap" tabindex="-1"></main>
+<footer>
+  <div class="wrap row sp">
+    <div>© <span id="yr"></span> Amitesh Tech · amiteshtech.online<br><span class="small">AI सीखें, आसान हिंदी और English में.</span></div>
+    <div><a id="footWa" href="#" target="_blank" rel="noopener">WhatsApp: +91 72509 47444</a></div>
+  </div>
+</footer>
+
+<script type="module">
+/* =====================================================================
+   CONFIG – paste your own values here (see README.md). Public keys only.
+   ===================================================================== */
+const CONFIG = {
+  firebase: { apiKey: "YOUR_FIREBASE_API_KEY", authDomain: "YOUR_PROJECT.firebaseapp.com", projectId: "YOUR_FIREBASE_PROJECT_ID", appId: "YOUR_FIREBASE_APP_ID" },
+  supabaseUrl: "https://YOUR_PROJECT.supabase.co",
+  supabaseKey: "YOUR_SUPABASE_PUBLIC_ANON_KEY"
+};
+const CONFIGURED = !/YOUR_/.test(CONFIG.supabaseUrl + CONFIG.firebase.apiKey);
+const API = CONFIG.supabaseUrl + "/functions/v1/api";
+const DEFAULT_WA = "917250947444";
+
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const safeUrl = u => /^https?:\/\//i.test(u || "") ? u : "";
+const rs = n => "₹" + Number(n).toLocaleString("en-IN");
+const nl = s => esc(s).replace(/\n/g, "<br>");
+const fmtDate = iso => iso ? new Date(iso).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "Date to be announced";
+const toLocalInput = iso => { if (!iso) return ""; const d = new Date(iso); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 16); };
+
+function toast(msg, err) {
+  const t = document.createElement("div"); t.className = "toast" + (err ? " err" : ""); t.setAttribute("role", "status"); t.textContent = msg;
+  document.body.append(t); setTimeout(() => t.remove(), 3800);
+}
+function modal(html, wide) {
+  const ov = document.createElement("div"); ov.className = "ov";
+  ov.innerHTML = `<div class="modal${wide ? " wide" : ""}" role="dialog" aria-modal="true"><button class="x" aria-label="Close">×</button><div class="mb">${html}</div></div>`;
+  const close = () => { ov.remove(); ov.onclose?.(); };
+  $(".x", ov).onclick = close;
+  ov.addEventListener("mousedown", e => { if (e.target === ov) close(); });
+  document.body.append(ov); ov.close = close; return ov;
+}
+const busy = async (btn, fn) => {
+  const old = btn.textContent; btn.disabled = true; btn.textContent = "Please wait…";
+  try { return await fn(); } catch (e) { toast(e.message || "Something went wrong", true); } finally { btn.disabled = false; btn.textContent = old; }
+};
+
+/* ---------- state ---------- */
+const S = { settings: {}, courses: [], classes: [], testimonials: [], faqs: [], user: null, me: null, authReady: false, loaded: false, A: null };
+let fb = null; // firebase handles
+
+/* ---------- data: public reads straight from Supabase, everything else via the Edge Function ---------- */
+async function pub(table, query) {
+  const r = await fetch(`${CONFIG.supabaseUrl}/rest/v1/${table}?${query}`, { headers: { apikey: CONFIG.supabaseKey, Authorization: "Bearer " + CONFIG.supabaseKey } });
+  if (!r.ok) throw new Error("load failed");
+  return r.json();
+}
+async function loadPublic() {
+  if (!CONFIGURED) { S.loaded = true; return; }
+  const [st, co, cl, te, fq] = await Promise.allSettled([
+    pub("settings", "id=eq.1&select=data"), pub("courses", "published=eq.true&order=created_at.desc"),
+    pub("live_classes", "published=eq.true&order=starts_at.asc"), pub("testimonials", "order=created_at.desc"), pub("faqs", "order=created_at.asc")
+  ]);
+  const v = (x, d) => x.status === "fulfilled" ? x.value : d;
+  S.settings = v(st, [])[0]?.data || {}; S.courses = v(co, []); S.classes = v(cl, []); S.testimonials = v(te, []); S.faqs = v(fq, []);
+  S.loaded = true;
+}
+async function api(action, data = {}) {
+  if (!CONFIGURED) throw new Error("Site is not configured yet. See README.md");
+  const h = { "Content-Type": "application/json", apikey: CONFIG.supabaseKey };
+  if (fb?.auth.currentUser) h.Authorization = "Bearer " + await fb.auth.currentUser.getIdToken();
+  const r = await fetch(API, { method: "POST", headers: h, body: JSON.stringify({ action, ...data }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || "Request failed");
+  return j;
+}
+async function syncMe() {
+  if (!S.user) { S.me = null; return; }
+  try { S.me = await api("sync"); } catch (e) { S.me = null; console.warn(e); }
+}
+
+/* ---------- settings-derived ---------- */
+const wa = () => (S.settings.support?.whatsapp || DEFAULT_WA).replace(/\D/g, "");
+const waLink = text => `https://wa.me/${wa()}?text=${encodeURIComponent(text)}`;
+const pct = () => Number(S.settings.discount?.percent) || 0;
+const priceAfter = it => !it.is_paid || it.price <= 0 ? 0 : Math.max(1, Math.round(it.price * (100 - pct()) / 100));
+const fee = () => Number(S.settings.fee) || 499;
+const isEnrolled = (kind, id) => !!S.me?.enrollments?.some(e => e.kind === kind && e.item_id === id);
+const pendingFor = (kind, id) => S.me?.purchases?.find(p => p.kind === kind && p.item_id === id && p.status === "pending");
+const priceHtml = it => {
+  if (!it.is_paid) return `<span class="chip free">FREE</span>`;
+  const a = priceAfter(it);
+  return pct() > 0 ? `<span class="price"><s>${rs(it.price)}</s><b>${rs(a)}</b></span> <span class="chip gold">${pct()}% off</span>` : `<span class="price"><b>${rs(it.price)}</b></span>`;
+};
+
+/* ---------- auth ---------- */
+async function initFirebase() {
+  if (!CONFIGURED) { S.authReady = true; return; }
+  try {
+    const V = "10.12.2";
+    const [appM, authM] = await Promise.all([import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`), import(`https://www.gstatic.com/firebasejs/${V}/firebase-auth.js`)]);
+    const app = appM.initializeApp(CONFIG.firebase);
+    fb = { auth: authM.getAuth(app), m: authM };
+    await new Promise(res => authM.onAuthStateChanged(fb.auth, async u => { S.user = u; await syncMe(); S.authReady = true; renderNav(); res(); route(); }));
+  } catch (e) { console.warn("Firebase failed", e); S.authReady = true; }
+}
+const loggedIn = () => !!S.user;
+function needLogin() { toast("Please log in first", true); location.hash = "#/login"; }
+
+/* ---------- router ---------- */
+const NAV = [["#/", "Home"], ["#/courses", "Courses"], ["#/live", "Live Classes"], ["#/about", "About"], ["#/community", "Community"]];
+function renderNav() {
+  const cur = "#/" + (location.hash.replace(/^#\/?/, "").split(/[/?]/)[0] || "");
+  const items = NAV.slice();
+  items.push(S.user ? ["#/logout", "Logout"] : ["#/login", "Login / Sign up"]);
+  if (S.me?.admin) items.splice(5, 0, ["#/admin", "Admin"]);
+  $("#nav").innerHTML = items.map(([h, t]) => `<a href="${h}" class="${h === cur ? "on" : ""}">${t}</a>`).join("");
+  $("#promo").innerHTML = pct() > 0 ? `<div class="promo">🎉 ${esc(S.settings.discount?.label || "Special offer")} — ${pct()}% off on paid courses &amp; classes</div>` : "";
+  $("#footWa").href = waLink("Hello Amitesh Tech");
+}
+const VIEWS = { "": home, courses: coursesView, live: liveView, about: aboutView, community: communityView, login: loginView, admin: adminView };
+let slideTimer = null;
+async function route() {
+  clearInterval(slideTimer);
+  const parts = location.hash.replace(/^#\/?/, "").split("/");
+  const name = parts[0].split("?")[0];
+  if (name === "logout") { await fb?.m.signOut(fb.auth); location.hash = "#/"; toast("Logged out"); return; }
+  const v = VIEWS[name] || home;
+  renderNav();
+  $("#nav").classList.remove("open"); $("#burger").setAttribute("aria-expanded", "false");
+  const app = $("#app");
+  if (!S.loaded || !S.authReady) { app.innerHTML = `<div class="empty">Loading…</div>`; return; }
+  await v(app, parts.slice(1));
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+$("#burger").onclick = () => { const o = $("#nav").classList.toggle("open"); $("#burger").setAttribute("aria-expanded", o); };
+
+/* ---------- HOME ---------- */
+function home(app) {
+  const reg = S.me?.registration;
+  const cta = S.me?.registration?.status === "verified" ? `<a class="btn" href="#/community">Open community</a>` : `<button class="btn" id="regBtn">Register now · ${rs(fee())}</button>`;
+  app.innerHTML = `
+  <section class="hero" style="margin:0 -16px;padding-left:16px;padding-right:16px"><div class="wrap" style="padding:0">
+    <h1>Learn <em>AI</em> in simple<br>Hindi &amp; English</h1>
+    <p>AI सीखें आसान भाषा में। Live classes on Google Meet, recorded video courses, and a members-only community, built for Indian students and beginners.</p>
+    <div class="row">${cta}<a class="btn ghost" style="color:#fff;border-color:#fff" href="#/courses">Browse courses</a></div>
+  </div></section>
+  <section class="blk"><h2 class="center">What you get</h2>
+    <div class="grid" style="margin-top:20px">
+      ${[["🎥", "Live classes", "Join live on Google Meet and ask questions in Hindi or English."], ["📚", "Video courses", "Free and paid recorded courses, learn at your own pace."], ["🤝", "Community", "Members-only feed with notices, updates and discussion."], ["📱", "Mobile first", "Fast on any phone. Pay simply by UPI."]]
+        .map(([i, t, d]) => `<div class="card pad feat"><i>${i}</i><div><h3>${t}</h3><p class="muted" style="margin:0">${d}</p></div></div>`).join("")}
+    </div></section>
+  ${S.testimonials.length ? `<section class="blk"><h2 class="center">What students say</h2><div class="grid" style="margin-top:20px">${S.testimonials.map(t => `<blockquote class="card pad"><p>“${esc(t.text)}”</p><b>${esc(t.name)}</b><div class="muted small">${esc(t.role)}</div></blockquote>`).join("")}</div></section>` : ""}
+  ${S.faqs.length ? `<section class="blk"><h2 class="center">FAQ</h2><div style="max-width:720px;margin:20px auto 0">${S.faqs.map(f => `<details class="faq"><summary>${esc(f.question)}</summary><p>${nl(f.answer)}</p></details>`).join("")}</div></section>` : ""}
+  <section class="blk center"><h2>Ready to start learning AI?</h2><p class="muted">Registration fee ${rs(fee())}. Pay by UPI and get community access after verification.</p>${cta}</section>
+  ${!CONFIGURED ? `<div class="notice">⚙️ Setup needed: add your Firebase and Supabase keys at the top of <code>index.html</code>. See README.md.</div>` : ""}`;
+  $("#regBtn")?.addEventListener("click", openRegister);
+}
+
+/* ---------- registration + payment ---------- */
+function openRegister() {
+  if (!loggedIn()) return needLogin();
+  const reg = S.me?.registration;
+  if (reg?.status === "verified") return toast("You are already registered ✅");
+  const m = modal(`
+    <h2>Register</h2><p class="muted small">Fee: <b>${rs(fee())}</b>. After payment, the admin verifies it and unlocks the community.</p>
+    <form id="rf" novalidate>
+      <label for="rn">Student name</label><input id="rn" name="name" required maxlength="100" autocomplete="name" value="${esc(reg?.name || S.user?.displayName || "")}">
+      <label for="rm">Mother's name</label><input id="rm" name="mother_name" required maxlength="100" value="${esc(reg?.mother_name || "")}">
+      <label for="rfa">Father's name</label><input id="rfa" name="father_name" required maxlength="100" value="${esc(reg?.father_name || "")}">
+      <label for="rl">Level</label><select id="rl" name="level">${["Beginner", "Average", "Advanced"].map(l => `<option ${reg?.level === l ? "selected" : ""}>${l}</option>`).join("")}</select>
+      <label for="re">Email</label><input id="re" name="email" type="email" readonly value="${esc(S.user.email)}">
+      <label for="rp">Phone (WhatsApp)</label><input id="rp" name="phone" type="tel" inputmode="numeric" required maxlength="14" autocomplete="tel" value="${esc(reg?.phone || "")}">
+      <div class="row sp" style="margin-top:18px"><span class="muted small">Next: pay ${rs(fee())} by UPI</span><button class="btn" type="submit">Next →</button></div>
+    </form>`);
+  $("#rf", m).onsubmit = e => {
+    e.preventDefault();
+    const f = Object.fromEntries(new FormData(e.target));
+    for (const k of ["name", "mother_name", "father_name", "phone"]) if (!f[k].trim()) return toast("Please fill all fields", true);
+    if (!/^[6-9]\d{9}$/.test(f.phone.replace(/[\s-]/g, "").replace(/^\+?91/, ""))) return toast("Enter a valid 10-digit mobile number", true);
+    m.close();
+    payWindow({
+      title: "Registration fee", amount: fee(), note: "Amitesh Tech registration",
+      save: async () => { await api("register", f); await syncMe(); },
+      waText: `Hello Amitesh Tech, I have paid the registration fee.\nName: ${f.name}\nLevel: ${f.level}\nEmail: ${S.user.email}\nPhone: ${f.phone}\nAmount: ${rs(fee())}\nScreenshot attached.`
+    });
+  };
+}
+
+function payWindow({ title, amount, note, save, waText }) {
+  const upi = S.settings.upi || {};
+  const link = upi.id ? `upi://pay?pa=${encodeURIComponent(upi.id)}&pn=${encodeURIComponent(upi.name || "Amitesh Tech")}&am=${amount}&cu=INR&tn=${encodeURIComponent(note || "Amitesh Tech")}` : "";
+  const m = modal(`
+    <h2>Pay ${rs(amount)}</h2><p class="muted small" style="margin-top:-6px">${esc(title)}</p>
+    <div class="row sp"><span class="small muted">Complete payment within</span><span class="timer" id="tm">5:00</span></div>
+    <div class="qr" id="qr" style="margin:12px 0" aria-label="UPI QR code"></div>
+    ${link ? `<p class="center small muted" style="margin:0 0 10px">Scan with any UPI app, or</p><div class="center"><a class="btn navy" href="${esc(link)}">Pay in my UPI app</a></div>` : ""}
+    <p class="small muted">Some UPI apps may warn about or ignore the pre-filled amount. Please make sure you pay exactly <b>${rs(amount)}</b>.</p>
+    <button class="btn wa" id="paid" style="width:100%">I have paid. Send screenshot on WhatsApp</button>`);
+  const qr = $("#qr", m);
+  if (link) {
+    import("https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/+esm").then(mod => {
+      const gen = mod.default || mod; const q = gen(0, "M"); q.addData(link); q.make(); qr.innerHTML = q.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
+    }).catch(() => qr.innerHTML = `<p class="muted center">Could not draw QR. Use the “Pay in my UPI app” button.</p>`);
+  } else if (safeUrl(S.settings.qr_image)) qr.innerHTML = `<img alt="UPI QR code" src="${esc(S.settings.qr_image)}">`;
+  else qr.innerHTML = `<p class="muted center">Payment details are not set yet. Please contact us on WhatsApp.</p>`;
+  let left = 300; const tm = $("#tm", m);
+  const iv = setInterval(() => {
+    left--; tm.textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`; tm.classList.toggle("low", left < 60);
+    if (left <= 0) { clearInterval(iv); $("#paid", m).disabled = true; qr.innerHTML = `<p class="center muted">Time is over. Please start again.</p>`; }
+  }, 1000);
+  m.onclose = () => clearInterval(iv);
+  $("#paid", m).onclick = e => busy(e.target, async () => {
+    await save(); clearInterval(iv);
+    const url = waLink(waText);
+    $(".mb", m).innerHTML = `<h2>Almost done ✅</h2><p>Your request is saved. Now send your payment screenshot on WhatsApp to <b>+91 ${wa().slice(-10).replace(/(\d{5})(\d{5})/, "$1 $2")}</b>. We verify it manually and then unlock your access.</p><a class="btn wa" target="_blank" rel="noopener" href="${esc(url)}" style="width:100%">Open WhatsApp</a>`;
+    window.open(url, "_blank", "noopener"); route();
+  });
+}
+
+/* ---------- COURSES ---------- */
+function itemAction(kind, it) {
+  if (isEnrolled(kind, it.id) || (kind === "course" && !it.is_paid)) return `<button class="btn sm" data-open="${kind}:${it.id}">${kind === "course" ? "Start learning" : "Get Meet link"}</button>`;
+  if (pendingFor(kind, it.id)) return `<span class="chip gold">Waiting for admin approval</span>`;
+  return it.is_paid ? `<button class="btn sm" data-buy="${kind}:${it.id}">Buy ${rs(priceAfter(it))}</button>` : `<button class="btn sm" data-buy="${kind}:${it.id}">Enrol free</button>`;
+}
+function wireItems(app) {
+  $$("[data-open]", app).forEach(b => b.onclick = () => openContent(...b.dataset.open.split(":")));
+  $$("[data-buy]", app).forEach(b => b.onclick = () => buy(...b.dataset.buy.split(":")));
+}
+async function buy(kind, id) {
+  if (!loggedIn()) return needLogin();
+  const it = (kind === "course" ? S.courses : S.classes).find(x => x.id === id); if (!it) return;
+  const amount = priceAfter(it);
+  if (amount === 0) { try { await api("purchase", { kind, id }); await syncMe(); toast("Enrolled ✅"); route(); } catch (e) { toast(e.message, true); } return; }
+  payWindow({
+    title: it.title, amount, note: it.title.slice(0, 40),
+    save: async () => { await api("purchase", { kind, id }); await syncMe(); },
+    waText: `Hello Amitesh Tech, I have paid for "${it.title}".\nName: ${S.me?.registration?.name || S.user.displayName || ""}\nEmail: ${S.user.email}\nAmount: ${rs(amount)}\nScreenshot attached.`
+  });
+}
+async function openContent(kind, id) {
+  if (kind === "class" && !loggedIn()) return needLogin();
+  try {
+    if (kind === "class" && !isEnrolled("class", id)) { await api("purchase", { kind, id }); await syncMe(); }
+    const r = await api("content", { kind, id });
+    if (kind === "class") {
+      const u = safeUrl(r.meet_url);
+      modal(`<h2>Google Meet</h2>${u ? `<p>Join the class here:</p><a class="btn" target="_blank" rel="noopener" href="${esc(u)}">Open Google Meet</a>` : `<p class="muted">The Meet link has not been added yet. Please check back soon.</p>`}`);
+    } else {
+      const c = S.courses.find(x => x.id === id);
+      modal(`<h2>${esc(c?.title)}</h2>${r.lessons.length ? r.lessons.map((l, i) => `<div class="item"><b>${i + 1}. ${esc(l.title)}</b>${l.kind === "video" ? `<video controls preload="none" style="width:100%;margin-top:8px;border-radius:10px" src="${esc(l.url)}"></video>` : `<div style="margin-top:6px"><a class="btn sm" target="_blank" rel="noopener" href="${esc(safeUrl(l.url))}">Open lesson ↗</a></div>`}</div>`).join("") : `<p class="muted">Lessons will be added soon.</p>`}`, true);
+    }
+    route();
+  } catch (e) { toast(e.message, true); }
+}
+function coursesView(app) {
+  app.innerHTML = `<section class="blk"><h2>Courses</h2><p class="muted">Free and paid video courses. कोर्स चुनें और सीखना शुरू करें।</p>
+    ${S.courses.length ? `<div class="grid">${S.courses.map(c => `<article class="card cc">
+      <div class="thumb" style="${safeUrl(c.thumbnail) ? `background-image:url('${esc(c.thumbnail)}')` : ""}">${safeUrl(c.thumbnail) ? "" : "AI"}</div>
+      <div class="cardbody"><h3 style="margin:0">${esc(c.title)}</h3>${c.instructor ? `<span class="muted small">by ${esc(c.instructor)}</span>` : ""}
+      <p class="muted small">${esc((c.description || "").slice(0, 140))}</p><div style="margin-top:auto" class="row sp">${priceHtml(c)}${itemAction("course", c)}</div></div></article>`).join("")}</div>`
+      : `<div class="empty">No courses published yet. Please check back soon.</div>`}</section>`;
+  wireItems(app);
+}
+function liveView(app) {
+  app.innerHTML = `<section class="blk"><h2>Live Classes</h2><p class="muted">Live on Google Meet. The Meet link appears after you enrol or your payment is approved.</p>
+    ${S.classes.length ? `<div class="grid">${S.classes.map(c => `<article class="card cardbody"><span class="chip">📅 ${esc(fmtDate(c.starts_at))}</span><h3 style="margin:0">${esc(c.title)}</h3>${c.instructor ? `<span class="muted small">by ${esc(c.instructor)}</span>` : ""}
+      <p class="muted small">${esc((c.description || "").slice(0, 160))}</p><div class="row sp" style="margin-top:auto">${priceHtml(c)}${itemAction("class", c)}</div></article>`).join("")}</div>`
+      : `<div class="empty">No live classes scheduled right now.</div>`}</section>`;
+  wireItems(app);
+}
+
+/* ---------- ABOUT ---------- */
+function aboutView(app) {
+  const f = S.settings.founder || {}; const ph = (f.photos || []).filter(safeUrl);
+  app.innerHTML = `<section class="blk about"><div><h2>${esc(f.name || "Amitesh")}</h2>${f.bio ? `<p>${nl(f.bio)}</p>` : `<p class="muted">Founder of Amitesh Tech. Teaching AI in simple Hindi and English.</p>`}
+    <a class="btn wa" target="_blank" rel="noopener" href="${esc(waLink("Hello Amitesh"))}">Chat on WhatsApp</a></div>
+    ${ph.length ? `<div class="slides" id="sl">${ph.map((u, i) => `<img src="${esc(u)}" alt="${esc(f.name || "Founder")} photo ${i + 1}" class="${i === 0 ? "on" : ""}" ${i ? 'loading="lazy"' : ""}>`).join("")}</div>` : ""}</section>`;
+  if (ph.length > 1) {
+    let i = 0; const imgs = $$("#sl img");
+    slideTimer = setInterval(() => { imgs[i].classList.remove("on"); i = (i + 1) % imgs.length; imgs[i].classList.add("on"); }, 2000);
+  }
+}
+
+/* ---------- LOGIN ---------- */
+function loginView(app) {
+  if (S.user) { app.innerHTML = `<section class="blk center"><h2>You are logged in</h2><p class="muted">${esc(S.user.email)}</p><a class="btn" href="#/">Go home</a> <a class="btn ghost" href="#/logout">Logout</a></section>`; return; }
+  let mode = "in";
+  const draw = () => {
+    app.innerHTML = `<section class="blk"><div class="card pad" style="max-width:420px;margin:0 auto"><h2 class="center">${mode === "in" ? "Login" : "Create account"}</h2>
+      <button class="btn ghost" id="g" style="width:100%">Continue with Google</button><p class="center muted small">or with email</p>
+      <form id="lf" novalidate>${mode === "up" ? `<label for="ln">Your name</label><input id="ln" name="name" autocomplete="name">` : ""}
+        <label for="le">Email</label><input id="le" name="email" type="email" autocomplete="email" required>
+        <label for="lp">Password</label><input id="lp" name="password" type="password" autocomplete="${mode === "in" ? "current-password" : "new-password"}" required minlength="6">
+        <button class="btn" style="width:100%;margin-top:16px" type="submit">${mode === "in" ? "Login" : "Sign up"}</button></form>
+      <p class="center small" style="margin-bottom:0"><a href="#" id="sw">${mode === "in" ? "New here? Create account" : "Already have an account? Login"}</a>${mode === "in" ? ` · <a href="#" id="fp">Forgot password</a>` : ""}</p></div></section>`;
+    $("#sw").onclick = e => { e.preventDefault(); mode = mode === "in" ? "up" : "in"; draw(); };
+    $("#fp")?.addEventListener("click", async e => { e.preventDefault(); const em = $("#le").value.trim(); if (!em) return toast("Enter your email first", true); try { await fb.m.sendPasswordResetEmail(fb.auth, em); toast("Password reset email sent"); } catch (x) { toast(authMsg(x), true); } });
+    $("#g").onclick = async () => { try { await fb.m.signInWithPopup(fb.auth, new fb.m.GoogleAuthProvider()); location.hash = "#/"; } catch (x) { toast(authMsg(x), true); } };
+    $("#lf").onsubmit = e => { e.preventDefault(); busy($("button[type=submit]", e.target), async () => {
+      if (!fb) throw new Error("Site is not configured yet");
+      const f = Object.fromEntries(new FormData(e.target));
+      try {
+        if (mode === "in") await fb.m.signInWithEmailAndPassword(fb.auth, f.email, f.password);
+        else {
+          const c = await fb.m.createUserWithEmailAndPassword(fb.auth, f.email, f.password);
+          if (f.name) await fb.m.updateProfile(c.user, { displayName: f.name });
+          await fb.m.sendEmailVerification(c.user); toast("Account created. Please verify your email (check inbox).");
+        }
+        location.hash = "#/";
+      } catch (x) { throw new Error(authMsg(x)); }
+    }); };
+  };
+  draw();
+}
+const authMsg = e => ({ "auth/invalid-credential": "Wrong email or password", "auth/email-already-in-use": "This email already has an account", "auth/weak-password": "Password must be at least 6 characters", "auth/popup-closed-by-user": "Login cancelled", "auth/invalid-email": "Email looks wrong", "auth/user-not-found": "No account with this email" }[e.code] || e.message || "Login failed");
+
+/* ---------- COMMUNITY ---------- */
+async function communityView(app, rest) {
+  const head = `<section class="blk"><h2>Community</h2>`;
+  if (!loggedIn()) { app.innerHTML = head + `<div class="notice">The community is for registered students only. <a href="#/login">Log in</a> to continue.</div></section>`; return; }
+  const me = S.me;
+  if (!me?.eligible) {
+    const verifyMail = !S.user.emailVerified && !me?.admin;
+    app.innerHTML = head + `<div class="notice">${verifyMail ? `Please verify your email address first (check your inbox). <button class="btn sm" id="rv">Resend email</button><br>` : ""}${me?.registration?.status === "pending" ? "Your registration is waiting for payment verification. Send your screenshot on WhatsApp if you have not yet." : "Community is open to students with a verified registration."}
+      <div style="margin-top:12px">${me?.registration?.status === "pending" ? `<a class="btn wa sm" target="_blank" rel="noopener" href="${esc(waLink(`Hello, I paid the registration fee. Email: ${S.user.email}`))}">Send screenshot</a>` : `<button class="btn sm" id="regBtn">Register · ${rs(fee())}</button>`}</div></div></section>`;
+    $("#regBtn")?.addEventListener("click", openRegister);
+    $("#rv")?.addEventListener("click", async () => { await fb.m.sendEmailVerification(S.user); toast("Verification email sent"); });
+    return;
+  }
+  app.innerHTML = head + `<div id="cj"></div><div class="row" style="margin:10px 0 16px"><button class="btn ghost sm" id="mem">Members</button></div><div id="feed"><div class="empty">Loading…</div></div></section>`;
+  let data;
+  try { data = await api("feed"); } catch (e) { $("#feed").innerHTML = `<div class="notice">${esc(e.message)}</div>`; return; }
+  if (!me.member && !me.admin) {
+    $("#cj").innerHTML = `<div class="notice row sp">Join the community to appear in the members list. <button class="btn sm" id="jn">Join</button></div>`;
+    $("#jn").onclick = e => busy(e.target, async () => { await api("join"); await syncMe(); route(); });
+  }
+  $("#mem").onclick = () => modal(`<h2>Members (${data.members.length})</h2>${data.members.length ? data.members.map(m => `<div class="cm">${esc(m.name)}</div>`).join("") : `<p class="muted">No members yet.</p>`}`);
+  const feed = $("#feed");
+  if (!data.posts.length) { feed.innerHTML = `<div class="empty">अभी कोई पोस्ट नहीं है।</div>`; return; }
+  feed.innerHTML = data.posts.map(p => `<article class="card post${p.pinned ? " pin" : ""}" id="p-${p.id}">
+    <div class="row"><span class="chip gold">${esc(p.type)}</span>${p.pinned ? `<span class="chip">📌 Pinned</span>` : ""}<span class="muted small">${esc(fmtDate(p.created_at))}</span></div>
+    <h3 style="margin:8px 0 4px">${esc(p.title)}</h3><p style="margin:0">${nl(p.body)}</p>
+    ${safeUrl(p.image) ? `<img class="pi" loading="lazy" alt="" src="${esc(p.image)}">` : ""}
+    ${safeUrl(p.link) ? `<a class="btn sm ghost" target="_blank" rel="noopener" href="${esc(p.link)}">Open link ↗</a>` : ""}
+    <div class="act"><button class="heart ${p.liked ? "on" : ""}" data-like="${p.id}" aria-label="Like"><span>${p.liked ? "♥" : "♡"}</span> <b>${p.likes}</b></button>
+      <button data-cm="${p.id}">💬 <b>${p.comments}</b></button><button data-share="${p.id}">Share</button></div>
+    <div class="cms" id="c-${p.id}" hidden></div></article>`).join("");
+  $$("[data-like]", feed).forEach(b => b.onclick = async () => {
+    try { const r = await api("like", { post_id: b.dataset.like }); b.classList.toggle("on", r.liked); b.firstElementChild.textContent = r.liked ? "♥" : "♡"; $("b", b).textContent = r.likes; b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop"); } catch (e) { toast(e.message, true); }
+  });
+  $$("[data-cm]", feed).forEach(b => b.onclick = () => toggleComments(b.dataset.cm, b));
+  $$("[data-share]", feed).forEach(b => b.onclick = () => {
+    const link = location.origin + location.pathname + "#/community/" + b.dataset.share;
+    const t = $(`#p-${b.dataset.share} h3`).textContent;
+    const m = modal(`<h2>Share post</h2><div class="row"><button class="btn navy" id="cp">Copy link</button><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(t + "\n" + link)}">WhatsApp</a></div>`);
+    $("#cp", m).onclick = async () => { try { await navigator.clipboard.writeText(link); toast("Link copied"); m.close(); } catch { prompt("Copy this link", link); } };
+  });
+  if (rest[0]) setTimeout(() => { const el = $("#p-" + CSS.escape(rest[0])); el?.scrollIntoView({ behavior: "smooth", block: "center" }); el?.classList.add("pin"); }, 150);
+}
+async function toggleComments(id, btn) {
+  const box = $("#c-" + id);
+  if (!box.hidden) { box.hidden = true; return; }
+  box.hidden = false;
+  const load = async () => {
+    const r = await api("comments", { post_id: id });
+    box.innerHTML = `${r.comments.map(c => `<div class="cm"><b>${esc(c.name)}</b> <span class="muted small">${esc(fmtDate(c.created_at))}</span>${c.mine || S.me.admin ? ` <a href="#" data-del="${c.id}" class="small">delete</a>` : ""}<div>${nl(c.body)}</div></div>`).join("") || `<p class="muted small">No comments yet.</p>`}
+      <form class="row" style="margin-top:8px;flex-wrap:nowrap"><input maxlength="1000" placeholder="Write a comment…" aria-label="Comment" required><button class="btn sm">Send</button></form>`;
+    $("b", btn).textContent = r.comments.length;
+    $$("[data-del]", box).forEach(a => a.onclick = async e => { e.preventDefault(); try { await api("delete_comment", { id: a.dataset.del }); load(); } catch (x) { toast(x.message, true); } });
+    $("form", box).onsubmit = async e => { e.preventDefault(); const i = $("input", e.target); try { await api("add_comment", { post_id: id, body: i.value }); load(); } catch (x) { toast(x.message, true); } };
+  };
+  try { await load(); } catch (e) { toast(e.message, true); }
+}
+
+/* =====================================================================
+   ADMIN
+   ===================================================================== */
+const ADMIN_TABS = ["Courses", "Live", "Verify payments", "Community", "Content", "Settings"];
+let adminTab = 0;
+async function adminView(app) {
+  if (!S.me?.admin) { app.innerHTML = `<section class="blk"><div class="notice">${S.user ? "This area is for the admin account only." : `Please <a href="#/login">log in</a> with the admin Google account.`}</div></section>`; return; }
+  app.innerHTML = `<div class="empty">Loading admin…</div>`;
+  try { S.A = await api("admin_load"); } catch (e) { app.innerHTML = `<div class="notice">${esc(e.message)}</div>`; return; }
+  drawAdmin(app);
+}
+async function reloadAdmin() { S.A = await api("admin_load"); await loadPublic(); drawAdmin($("#app")); }
+function drawAdmin(app) {
+  const A = S.A; const pend = A.registrations.filter(r => r.status === "pending").length + A.purchases.filter(p => p.status === "pending").length;
+  const names = ADMIN_TABS.map((t, i) => i === 2 && pend ? `${t} (${pend})` : t);
+  app.innerHTML = `<section class="blk"><h2>Admin panel</h2><div class="tabs" role="tablist">${names.map((t, i) => `<button role="tab" class="${i === adminTab ? "on" : ""}" data-t="${i}">${esc(t)}</button>`).join("")}</div><div id="tab"></div></section>`;
+  $$(".tabs button", app).forEach(b => b.onclick = () => { adminTab = +b.dataset.t; drawAdmin(app); });
+  [tabCourses, tabLive, tabPay, tabCommunity, tabContent, tabSettings][adminTab]($("#tab"));
+}
+const act = (fn, msg = "Saved ✅") => async e => { const b = e.currentTarget; await busy(b, async () => { await fn(); await reloadAdmin(); toast(msg); }); };
+const confirmDo = (q, fn) => async e => { if (confirm(q)) return act(fn, "Done")(e); };
+
+/* generic form modal */
+function formModal(title, fields, vals, onSave) {
+  const html = fields.map(f => {
+    const id = "f_" + f.k, v = vals[f.k] ?? f.def ?? "";
+    if (f.t === "check") return `<label><input type="checkbox" id="${id}" ${v ? "checked" : ""}> ${f.l}</label>`;
+    if (f.t === "area") return `<label for="${id}">${f.l}</label><textarea id="${id}" ${f.max ? `maxlength="${f.max}"` : ""}>${esc(v)}</textarea>`;
+    if (f.t === "select") return `<label for="${id}">${f.l}</label><select id="${id}">${f.o.map(o => `<option ${o === v ? "selected" : ""}>${o}</option>`).join("")}</select>`;
+    if (f.t === "image") return `<label for="${id}">${f.l}</label><input id="${id}" value="${esc(v)}" placeholder="https://… or upload below"><input type="file" accept="image/*" data-up="${id}" style="margin-top:6px"><div class="small muted" id="${id}_s"></div>`;
+    return `<label for="${id}">${f.l}</label><input id="${id}" type="${f.t || "text"}" value="${esc(v)}" ${f.max ? `maxlength="${f.max}"` : ""} ${f.ph ? `placeholder="${esc(f.ph)}"` : ""}>`;
+  }).join("");
+  const m = modal(`<h2>${esc(title)}</h2><div id="ff">${html}</div><div class="row sp" style="margin-top:18px"><button class="btn ghost" id="cn">Cancel</button><button class="btn" id="sv">Save</button></div>`, true);
+  $$("[data-up]", m).forEach(i => i.onchange = async () => { $("#" + i.dataset.up + "_s", m).textContent = "Uploading…"; try { $("#" + i.dataset.up, m).value = await uploadImage(i.files[0]); $("#" + i.dataset.up + "_s", m).textContent = "Uploaded ✅"; } catch (e) { $("#" + i.dataset.up + "_s", m).textContent = e.message; } });
+  $("#cn", m).onclick = m.close;
+  $("#sv", m).onclick = e => busy(e.target, async () => {
+    const out = {}; for (const f of fields) { const el = $("#f_" + f.k, m); out[f.k] = f.t === "check" ? el.checked : el.value; }
+    await onSave(out); m.close(); await reloadAdmin(); toast("Saved ✅");
+  });
+  return m;
+}
+async function uploadImage(file) {
+  if (!file) throw new Error("No file");
+  const bmp = await createImageBitmap(file).catch(() => null);
+  let blob = file, type = file.type;
+  if (bmp && file.type !== "image/gif") { // shrink big photos so uploads stay fast on mobile data
+    const k = Math.min(1, 1400 / Math.max(bmp.width, bmp.height)); const c = document.createElement("canvas"); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+    c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height); blob = await new Promise(r => c.toBlob(r, "image/jpeg", .85)); type = "image/jpeg";
+  }
+  if (blob.size > 5 * 1024 * 1024) throw new Error("Image must be under 5 MB");
+  const data = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(",")[1]); fr.readAsDataURL(blob); });
+  return (await api("upload", { type, data })).url;
+}
+
+/* ----- Courses tab ----- */
+function tabCourses(el) {
+  el.innerHTML = `<div class="row sp" style="margin-bottom:14px"><span class="muted">${S.A.courses.length} course(s)</span><button class="btn" id="add">+ Add course</button></div>` +
+    (S.A.courses.map(c => `<div class="item row sp"><div><b>${esc(c.title)}</b> ${c.published ? `<span class="chip free">Published</span>` : `<span class="chip">Draft</span>`} ${c.is_paid ? `<span class="chip gold">${rs(c.price)}</span>` : `<span class="chip free">Free</span>`}<div class="muted small">${c.lessons.length} lesson(s)</div></div>
+      <div class="row"><button class="btn sm ghost" data-e="${c.id}">Edit</button><button class="btn sm danger" data-d="${c.id}">Delete</button></div></div>`).join("") || `<div class="empty">No courses yet.</div>`);
+  $("#add", el).onclick = () => courseForm({});
+  $$("[data-e]", el).forEach(b => b.onclick = () => courseForm(S.A.courses.find(c => c.id === b.dataset.e)));
+  $$("[data-d]", el).forEach(b => b.onclick = confirmDo("Delete this course and its lessons?", () => api("delete_course", { id: b.dataset.d })));
+}
+function courseForm(c) {
+  const lessons = (c.lessons || []).map(l => ({ title: l.title, kind: l.kind, url: l.url }));
+  const m = formModal(c.id ? "Edit course" : "New course", [
+    { k: "title", l: "Title", max: 150 }, { k: "description", l: "Description", t: "area", max: 3000 }, { k: "instructor", l: "Instructor", max: 100 },
+    { k: "thumbnail", l: "Thumbnail", t: "image" }, { k: "is_paid", l: "Paid course", t: "check" }, { k: "price", l: "Price (₹, before discount)", t: "number" }, { k: "published", l: "Published", t: "check" }
+  ], c, async v => {
+    syncLessons();
+    await api("save_course", { ...v, id: c.id, price: Number(v.price) || 0, lessons });
+  });
+  const box = document.createElement("div");
+  box.innerHTML = `<h3 style="margin-top:20px">Lessons (<span id="lc">0</span>/200)</h3><div id="ll"></div><button class="btn sm ghost" id="la" type="button">+ Add lesson</button>`;
+  $("#ff", m).append(box);
+  const draw = () => {
+    $("#lc", m).textContent = lessons.length;
+    $("#ll", m).innerHTML = lessons.map((l, i) => `<div class="lessonrow" data-i="${i}"><input class="lt" placeholder="Lesson title" value="${esc(l.title)}" aria-label="Lesson title"><input class="lu" placeholder="Video link (https://…)" value="${esc(l.url)}" aria-label="Lesson link">
+      <div class="row"><label style="margin:0;font-weight:500"><input type="checkbox" class="lk" ${l.kind === "video" ? "checked" : ""}> uploaded video file</label><input type="file" accept="video/mp4,video/webm" class="lf" style="width:auto;flex:1;min-width:140px"><span class="small muted ls"></span><button type="button" class="btn sm danger lx">Remove</button></div></div>`).join("");
+    $$(".lx", m).forEach(b => b.onclick = () => { syncLessons(); lessons.splice(+b.closest(".lessonrow").dataset.i, 1); draw(); });
+    $$(".lf", m).forEach(inp => inp.onchange = async () => {
+      const row = inp.closest(".lessonrow"), f = inp.files[0], s = $(".ls", row); if (!f) return;
+      if (!/^video\/(mp4|webm)$/.test(f.type)) return s.textContent = "mp4 or webm only";
+      if (f.size > 50 * 1024 * 1024) return s.textContent = "Max 50 MB";
+      try {
+        s.textContent = "Uploading…"; const r = await api("signed_upload", { type: f.type, size: f.size });
+        const fd = new FormData(); fd.append("cacheControl", "3600"); fd.append("", f);
+        const up = await fetch(r.upload_url, { method: "PUT", body: fd, headers: { "x-upsert": "false" } });
+        if (!up.ok) throw new Error("Upload failed");
+        $(".lu", row).value = r.public_url; $(".lk", row).checked = true; s.textContent = "Uploaded ✅";
+      } catch (e) { s.textContent = e.message; }
+    });
+  };
+  function syncLessons() { $$(".lessonrow", m).forEach(r => { const l = lessons[+r.dataset.i]; l.title = $(".lt", r).value; l.url = $(".lu", r).value; l.kind = $(".lk", r).checked ? "video" : "link"; }); }
+  $("#la", m).onclick = () => { syncLessons(); if (lessons.length >= 200) return toast("Max 200 lessons", true); lessons.push({ title: "", kind: "link", url: "" }); draw(); };
+  draw();
+}
+
+/* ----- Live tab ----- */
+function tabLive(el) {
+  el.innerHTML = `<div class="row sp" style="margin-bottom:14px"><span class="muted">${S.A.classes.length} class(es)</span><button class="btn" id="add">+ Add live class</button></div>` +
+    (S.A.classes.map(c => `<div class="item row sp"><div><b>${esc(c.title)}</b> ${c.published ? `<span class="chip free">Published</span>` : `<span class="chip">Draft</span>`} ${c.is_paid ? `<span class="chip gold">${rs(c.price)}</span>` : `<span class="chip free">Free</span>`}<div class="muted small">${esc(fmtDate(c.starts_at))}</div></div>
+      <div class="row"><button class="btn sm ghost" data-e="${c.id}">Edit</button><button class="btn sm danger" data-d="${c.id}">Delete</button></div></div>`).join("") || `<div class="empty">No live classes yet.</div>`);
+  const form = c => formModal(c.id ? "Edit live class" : "New live class", [
+    { k: "title", l: "Title", max: 150 }, { k: "description", l: "Description", t: "area", max: 3000 }, { k: "instructor", l: "Instructor", max: 100 },
+    { k: "starts_at", l: "Date and time", t: "datetime-local" }, { k: "meet_url", l: "Google Meet link", ph: "https://meet.google.com/…" },
+    { k: "is_paid", l: "Paid class", t: "check" }, { k: "price", l: "Price (₹, before discount)", t: "number" }, { k: "published", l: "Published", t: "check" }
+  ], { ...c, starts_at: toLocalInput(c.starts_at) }, v => api("save_class", { ...v, id: c.id, price: Number(v.price) || 0, starts_at: v.starts_at ? new Date(v.starts_at).toISOString() : "" }));
+  $("#add", el).onclick = () => form({});
+  $$("[data-e]", el).forEach(b => b.onclick = () => form(S.A.classes.find(c => c.id === b.dataset.e)));
+  $$("[data-d]", el).forEach(b => b.onclick = confirmDo("Delete this live class?", () => api("delete_class", { id: b.dataset.d })));
+}
+
+/* ----- Verify payments tab ----- */
+function tabPay(el) {
+  const A = S.A, rl = A.registrations.filter(r => r.status === "pending"), pl = A.purchases.filter(p => p.status === "pending");
+  const waTo = (phone, t) => `https://wa.me/${(phone || "").replace(/\D/g, "").replace(/^(\d{10})$/, "91$1")}?text=${encodeURIComponent(t)}`;
+  el.innerHTML = `<p class="notice small">Without a UTR, match payments by <b>amount, name and the WhatsApp screenshot</b>, and confirm in your bank or UPI app before verifying.</p>
+    <h3 style="margin-top:18px">Pending registrations (${rl.length})</h3>
+    ${rl.map(r => `<div class="item"><b>${esc(r.name)}</b> · ${esc(r.level)} <span class="chip gold">${rs(r.fee)}</span><div class="muted small">${esc(r.email)} · ${esc(r.phone)} · ${esc(fmtDate(r.created_at))}</div>
+      <div class="row" style="margin-top:8px"><a class="btn sm wa" target="_blank" rel="noopener" href="${esc(waTo(r.phone, `Hello ${r.name}, regarding your Amitesh Tech registration payment of ${rs(r.fee)}.`))}">WhatsApp</a><button class="btn sm" data-v="${r.id}">Verify</button><button class="btn sm danger" data-rd="${r.id}">Delete</button></div></div>`).join("") || `<div class="empty">No pending registrations.</div>`}
+    <h3 style="margin-top:18px">Pending purchases (${pl.length})</h3>
+    ${pl.map(p => `<div class="item"><b>${esc(p.title)}</b> <span class="chip">${p.kind}</span> <span class="chip gold">${rs(p.amount)}</span><div class="muted small">${esc(p.name)} · ${esc(p.email)} · ${esc(fmtDate(p.created_at))}</div>
+      <div class="row" style="margin-top:8px"><a class="btn sm wa" target="_blank" rel="noopener" href="${esc(waTo(p.phone, `Hello ${p.name}, regarding your payment of ${rs(p.amount)} for ${p.title}.`))}">WhatsApp</a><button class="btn sm" data-ap="${p.id}">Approve</button><button class="btn sm danger" data-rj="${p.id}">Reject</button></div></div>`).join("") || `<div class="empty">No pending purchases.</div>`}
+    <h3 style="margin-top:18px">Verified and past</h3>
+    ${[...A.registrations.filter(r => r.status === "verified").map(r => `<div class="item small"><span class="chip free">verified</span> ${esc(r.name)} · ${esc(r.email)} · ${rs(r.fee)} <button class="btn sm danger" style="float:right" data-rd="${r.id}">Delete</button></div>`),
+      ...A.purchases.filter(p => p.status !== "pending").map(p => `<div class="item small"><span class="chip ${p.status === "approved" ? "free" : "bad"}">${p.status}</span> ${esc(p.title)} · ${esc(p.email)} · ${rs(p.amount)}</div>`)].join("") || `<div class="empty">Nothing yet.</div>`}`;
+  $$("[data-v]", el).forEach(b => b.onclick = act(() => api("verify_registration", { id: b.dataset.v }), "Registration verified ✅"));
+  $$("[data-rd]", el).forEach(b => b.onclick = confirmDo("Delete this registration?", () => api("delete_registration", { id: b.dataset.rd })));
+  $$("[data-ap]", el).forEach(b => b.onclick = act(() => api("decide_purchase", { id: b.dataset.ap, approve: true }), "Approved and enrolled ✅"));
+  $$("[data-rj]", el).forEach(b => b.onclick = confirmDo("Reject this purchase?", () => api("decide_purchase", { id: b.dataset.rj, approve: false })));
+}
+
+/* ----- Community tab ----- */
+function tabCommunity(el) {
+  const A = S.A;
+  el.innerHTML = `<div class="row sp" style="margin-bottom:14px"><span class="muted">${A.posts.length} post(s)</span><button class="btn" id="add">+ New post</button></div>
+    ${A.posts.map(p => `<div class="item"><div class="row"><span class="chip gold">${esc(p.type)}</span>${p.pinned ? `<span class="chip">📌 Pinned</span>` : ""}</div><b>${esc(p.title)}</b><div class="muted small">${esc((p.body || "").slice(0, 120))}</div>
+      <div class="row" style="margin-top:8px"><button class="btn sm ghost" data-pin="${p.id}">${p.pinned ? "Unpin" : "Pin to top"}</button><button class="btn sm ghost" data-e="${p.id}">Edit</button><button class="btn sm danger" data-d="${p.id}">Delete</button></div></div>`).join("") || `<div class="empty">अभी कोई पोस्ट नहीं है।</div>`}
+    <h3 style="margin-top:24px">Members (${A.members.filter(m => m.status === "active").length})</h3>
+    ${A.members.map(m => `<div class="item row sp small"><span>${esc(m.name)} · ${esc(m.email)} ${m.status === "removed" ? `<span class="chip bad">removed</span>` : ""}</span>${m.status === "removed" ? `<button class="btn sm ghost" data-rs="${esc(m.email)}">Restore</button>` : `<button class="btn sm danger" data-rm="${esc(m.email)}">Remove</button>`}</div>`).join("") || `<div class="empty">No members have joined yet.</div>`}`;
+  const form = p => formModal(p.id ? "Edit post" : "New post", [
+    { k: "type", l: "Type", t: "select", o: ["Notice", "Update", "New Course", "Live Class"] }, { k: "title", l: "Title", max: 200 }, { k: "body", l: "Body", t: "area", max: 5000 },
+    { k: "image", l: "Image (optional)", t: "image" }, { k: "link", l: "Link (optional)", ph: "https://…" }, { k: "pinned", l: "Pin to top", t: "check" }
+  ], p, v => api("save_post", { ...v, id: p.id }));
+  $("#add", el).onclick = () => form({});
+  $$("[data-e]", el).forEach(b => b.onclick = () => form(A.posts.find(p => p.id === b.dataset.e)));
+  $$("[data-d]", el).forEach(b => b.onclick = confirmDo("Delete this post?", () => api("delete_post", { id: b.dataset.d })));
+  $$("[data-pin]", el).forEach(b => b.onclick = act(() => api("pin_post", { id: b.dataset.pin, pinned: !A.posts.find(p => p.id === b.dataset.pin).pinned })));
+  $$("[data-rm]", el).forEach(b => b.onclick = confirmDo("Remove this member from the community?", () => api("remove_member", { email: b.dataset.rm })));
+  $$("[data-rs]", el).forEach(b => b.onclick = act(() => api("restore_member", { email: b.dataset.rs })));
+}
+
+/* ----- Content tab ----- */
+function tabContent(el) {
+  const A = S.A;
+  el.innerHTML = `<h3>Testimonials</h3><div class="row" style="margin-bottom:10px"><button class="btn" id="at">+ Add testimonial</button></div>
+    ${A.testimonials.map(t => `<div class="item row sp"><div>“${esc(t.text)}”<div class="muted small">${esc(t.name)} · ${esc(t.role)}</div></div><button class="btn sm danger" data-dt="${t.id}">Delete</button></div>`).join("") || `<div class="empty">No testimonials yet. Only add real ones.</div>`}
+    <h3 style="margin-top:24px">FAQs</h3><div class="row" style="margin-bottom:10px"><button class="btn" id="af">+ Add FAQ</button></div>
+    ${A.faqs.map(f => `<div class="item row sp"><div><b>${esc(f.question)}</b><div class="muted small">${esc(f.answer)}</div></div><button class="btn sm danger" data-df="${f.id}">Delete</button></div>`).join("") || `<div class="empty">No FAQs yet.</div>`}`;
+  $("#at", el).onclick = () => formModal("New testimonial", [{ k: "name", l: "Name", max: 80 }, { k: "role", l: "Role (e.g. Student, Delhi)", max: 100 }, { k: "text", l: "Testimonial", t: "area", max: 1000 }], {}, v => api("save_testimonial", v));
+  $("#af", el).onclick = () => formModal("New FAQ", [{ k: "question", l: "Question", max: 300 }, { k: "answer", l: "Answer", t: "area", max: 2000 }], {}, v => api("save_faq", v));
+  $$("[data-dt]", el).forEach(b => b.onclick = confirmDo("Delete this testimonial?", () => api("delete_testimonial", { id: b.dataset.dt })));
+  $$("[data-df]", el).forEach(b => b.onclick = confirmDo("Delete this FAQ?", () => api("delete_faq", { id: b.dataset.df })));
+}
+
+/* ----- Settings tab ----- */
+function tabSettings(el) {
+  const s = S.A.settings, h = S.A.hooks; const photos = [...(s.founder?.photos || [])];
+  el.innerHTML = `<div class="card pad"><h3>Offer &amp; fee</h3>
+    <label for="sd">Discount % (0 to 90)</label><input id="sd" type="number" min="0" max="90" value="${esc(s.discount?.percent ?? 0)}">
+    <label for="sdl">Discount label</label><input id="sdl" maxlength="80" value="${esc(s.discount?.label || "")}" placeholder="e.g. Chhath Puja offer">
+    <label for="sf">Registration fee (₹, 1 to 100000)</label><input id="sf" type="number" min="1" max="100000" value="${esc(s.fee ?? 499)}">
+    <h3 style="margin-top:22px">Payments (UPI)</h3>
+    <label for="su">UPI ID</label><input id="su" value="${esc(s.upi?.id || "")}" placeholder="name@bank" autocapitalize="none">
+    <label for="sun">Payee name</label><input id="sun" maxlength="60" value="${esc(s.upi?.name || "")}">
+    <label for="sq">QR image (used only when no UPI ID is saved)</label><input id="sq" value="${esc(s.qr_image || "")}"><input type="file" accept="image/*" id="sqf" style="margin-top:6px">
+    <h3 style="margin-top:22px">Founder</h3>
+    <label for="fn">Name</label><input id="fn" maxlength="80" value="${esc(s.founder?.name || "")}">
+    <label for="fb">Bio</label><textarea id="fb" maxlength="3000">${esc(s.founder?.bio || "")}</textarea>
+    <label>About photos (${photos.length}/5, change every 2 seconds when more than one)</label><div id="ph"></div>
+    <input type="file" accept="image/*" id="pf" ${photos.length >= 5 ? "disabled" : ""}><div class="small muted" id="pfs">Add one photo at a time.</div>
+    <h3 style="margin-top:22px">Support</h3><label for="sw">WhatsApp number (with country code)</label><input id="sw" inputmode="numeric" value="${esc(s.support?.whatsapp || "")}" placeholder="917250947444">
+    <div style="margin-top:20px"><button class="btn" id="ss">Save settings</button></div></div>
+    <div class="card pad" style="margin-top:18px"><h3>Automations (optional)</h3>
+    <label for="h1">Make.com / n8n webhook (registration &amp; payment events)</label><input id="h1" value="${esc(h.automation)}" placeholder="https://…">
+    <label for="h2">Welcome email webhook (Grok automation, receives name and email)</label><input id="h2" value="${esc(h.welcome)}" placeholder="https://…">
+    <div style="margin-top:16px"><button class="btn" id="sh">Save webhooks</button></div></div>`;
+  const drawPh = () => {
+    $("#ph", el).innerHTML = photos.map((u, i) => `<div class="row" style="margin-bottom:6px"><img src="${esc(u)}" alt="" width="56" height="56" style="object-fit:cover;border-radius:8px"><span class="small muted" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Photo ${i + 1}</span>
+      ${i > 0 ? `<button class="btn sm ghost" data-l="${i}">← Move left</button>` : ""}<button class="btn sm danger" data-x="${i}">Remove</button></div>`).join("");
+    $$("[data-l]", el).forEach(b => b.onclick = () => { const i = +b.dataset.l; [photos[i - 1], photos[i]] = [photos[i], photos[i - 1]]; drawPh(); });
+    $$("[data-x]", el).forEach(b => b.onclick = () => { photos.splice(+b.dataset.x, 1); drawPh(); $("#pf", el).disabled = false; });
+  };
+  drawPh();
+  $("#pf", el).onchange = async e => { const st = $("#pfs", el); try { st.textContent = "Uploading…"; photos.push(await uploadImage(e.target.files[0])); st.textContent = "Added. Press Save settings to keep it."; drawPh(); if (photos.length >= 5) e.target.disabled = true; } catch (x) { st.textContent = x.message; } e.target.value = ""; };
+  $("#sqf", el).onchange = async e => { try { $("#sq", el).value = await uploadImage(e.target.files[0]); toast("QR uploaded. Press Save settings."); } catch (x) { toast(x.message, true); } };
+  $("#ss", el).onclick = e => busy(e.target, async () => {
+    const next = {
+      discount: { percent: Number($("#sd", el).value) || 0, label: $("#sdl", el).value }, fee: Number($("#sf", el).value),
+      upi: { id: $("#su", el).value.trim(), name: $("#sun", el).value }, qr_image: $("#sq", el).value.trim(),
+      founder: { name: $("#fn", el).value, bio: $("#fb", el).value, photos }, support: { whatsapp: $("#sw", el).value }
+    };
+    const r = await api("save_settings", { settings: next });
+    const ok = r.settings?.fee === next.fee && r.settings?.discount?.percent === next.discount.percent && (r.settings?.upi?.id || "") === next.upi.id && (r.settings?.founder?.photos || []).length === photos.length;
+    if (!ok) throw new Error("The server did not store these settings. Please try again.");
+    await reloadAdmin(); toast("Settings saved and checked ✅");
+  });
+  $("#sh", el).onclick = e => busy(e.target, async () => {
+    const r = await api("set_hooks", { automation: $("#h1", el).value.trim(), welcome: $("#h2", el).value.trim() });
+    if (r.hooks?.automation !== $("#h1", el).value.trim() || r.hooks?.welcome !== $("#h2", el).value.trim()) throw new Error("Webhooks were not stored");
+    toast("Webhooks saved ✅");
+  });
+}
+
+/* ---------- boot ---------- */
+$("#yr").textContent = new Date().getFullYear();
+(async () => {
+  renderNav(); route();
+  await loadPublic(); route();
+  await initFirebase(); route();
+})();
+</script>
+</body>
+</html>
