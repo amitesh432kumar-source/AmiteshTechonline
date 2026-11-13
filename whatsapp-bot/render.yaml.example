@@ -1,0 +1,19 @@
+# Optional: copy to render.yaml in repo root for one-click Render deploy of the WhatsApp bot
+services:
+  - type: web
+    name: whatsapp-ai-bot
+    runtime: node
+    rootDir: whatsapp-bot
+    buildCommand: npm install
+    startCommand: npm start
+    plan: starter
+    disk:
+      name: bot-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: NODE_VERSION
+        value: "22"
+      # add all other variables from .env.example in the Render dashboard (keep secrets there)

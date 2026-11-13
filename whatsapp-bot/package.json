@@ -1,0 +1,23 @@
+{
+  "name": "whatsapp-ai-assistant",
+  "version": "1.0.0",
+  "description": "24x7 WhatsApp AI assistant for small businesses, powered by Claude",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "chat": "node scripts/chat.js",
+    "test": "node --test test/*.test.js",
+    "setup-sheet": "node scripts/setup-sheet.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "googleapis": "^190.0.0"
+  }
+}
