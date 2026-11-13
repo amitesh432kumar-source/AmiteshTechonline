@@ -1,0 +1,25 @@
+# Render Blueprint example (paid plan - free plan so jaata hai aur worker ruk jaata hai)
+services:
+  - type: web
+    name: youtube-ai-assistant
+    runtime: node
+    plan: starter
+    rootDir: youtube-bot
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: BASE_URL
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: ENCRYPTION_KEY
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true

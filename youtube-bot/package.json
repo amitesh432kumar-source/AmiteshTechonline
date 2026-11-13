@@ -1,0 +1,28 @@
+{
+  "name": "youtube-ai-assistant",
+  "version": "1.0.0",
+  "description": "24x7 YouTube comment + live chat AI assistant powered by Claude",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "try": "node scripts/try-samples.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "googleapis": "^170.0.0",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^7.0.5",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "pg-mem": "^3.0.14"
+  }
+}

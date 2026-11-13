@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard - YouTube AI Assistant</title><link rel="stylesheet" href="/style.css"></head>
+<body><div class="wrap">
+<div class="row" style="align-items:center"><div><h1 id="title">Dashboard</h1><span id="status" class="pill"></span> <span id="usage" class="mut" style="font-size:.85rem"></span></div>
+<div style="text-align:right;flex:0 0 auto"><a id="sheet" class="btn ghost" target="_blank" rel="noopener" style="display:none">📊 Google Sheet</a> <button class="btn ghost" id="logout">Logout</button></div></div>
+
+<div class="card"><h2>1. Bot control</h2>
+<label class="switch"><input type="checkbox" id="botEnabled"> <span><b>Bot ON</b> — comments check karo</span></label>
+<label class="switch"><input type="checkbox" id="postReplies"> <span><b>Replies YouTube pe post karo</b> (OFF = DRY RUN: sirf neeche list me dikhega)</span></label>
+<label class="switch"><input type="checkbox" id="hideAbusive"> <span>Gali wale comments "review ke liye hold" karo</span></label>
+<label class="switch"><input type="checkbox" id="liveChat"> <span>Live chat me bhi kaam karo</span></label>
+<label class="switch"><input type="checkbox" id="liveWelcome"> <span>Live me naye logon ko welcome karo</span></label>
+<label class="switch"><input type="checkbox" id="weeklyReport"> <span>Har Sunday weekly report email karo</span></label></div>
+
+<div class="card"><h2>2. Channel &amp; personality</h2>
+<div class="row"><div><label>Channel name</label><input id="channelName"></div><div><label>AI ka naam (jaise "Team Rahul")</label><input id="aiName"></div><div><label>Aapka naam</label><input id="ownerName"></div></div>
+<div class="row"><div><label>Topic (Vlog / Tech / Comedy...)</label><input id="topic"></div><div><label>Audience</label><input id="audience" placeholder="India, 18-35, students"></div></div>
+<label>Style / tone</label><input id="style"><label>Viewer ko kaise bulana hai</label><input id="calling"><label>Languages</label><input id="languages">
+<label>Kabhi-kabhi reply ke end me line</label><input id="nudge"></div>
+
+<div class="card"><h2>3. Verified info (AI sirf yahi bolega)</h2>
+<p class="mut">Jo yaha nahi hai, AI "owner se puch ke batata hu" bolega. Price khali = price kabhi nahi batayega.</p>
+<label>Price / offer</label><textarea id="priceInfo"></textarea>
+<div class="row"><div><label>Description link</label><input id="l_description" placeholder="https://..."></div><div><label>Course link</label><input id="l_course"></div><div><label>Website</label><input id="l_website"></div><div><label>Telegram</label><input id="l_telegram"></div><div><label>Instagram</label><input id="l_instagram"></div></div>
+<label>FAQs</label><div id="faqs"></div><button class="btn ghost" id="addFaq">+ FAQ</button>
+<label>Extra rules (har line ek rule)</label><textarea id="extraRules"></textarea></div>
+
+<div class="card"><h2>4. Forward &amp; block</h2>
+<label>Ye words aaye to AI reply NAHI karega, aapko forward karega (comma se alag)</label><textarea id="forwardPatterns"></textarea>
+<label>Gali wale words (comma se alag)</label><textarea id="blockedWords"></textarea>
+<div class="row"><div><label>Alert email</label><input id="ownerEmail" type="email"></div><div><label>Webhook URL (https, optional — Zapier/Make/WhatsApp)</label><input id="webhookUrl" placeholder="https://hooks.zapier.com/..."></div></div></div>
+
+<div class="card"><button class="btn gold" id="save">💾 Save settings</button> <button class="btn ghost" id="report">📈 Weekly report abhi bhejo</button></div>
+
+<div class="card"><h2>5. Try it — AI kya reply karega?</h2>
+<textarea id="tryText" placeholder="Koi bhi comment likho, jaise: Bhai price kya hai?"></textarea>
+<p><button class="btn" id="tryBtn">Test karo</button></p><pre id="tryOut" class="mut" style="white-space:pre-wrap"></pre></div>
+
+<div class="card"><h2>6. Recent comments</h2><div class="tablewrap"><table><thead><tr><th>Time</th><th>Viewer</th><th>Comment</th><th>AI Reply</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div>
+<p><button class="btn ghost" id="refresh">Refresh</button></p></div>
+
+<div class="card"><h2>Danger zone</h2><button class="btn red" id="del">Disconnect &amp; saara data delete</button></div>
+<footer><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></footer>
+</div><div id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const toast=t=>{const e=$('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2600)};
+const api=async(p,o={})=>{const r=await fetch(p,{headers:{'content-type':'application/json'},...o});if(r.status===401){location='/';throw 0}const j=await r.json();if(!r.ok)throw new Error(j.error||'error');return j};
+const checks=['botEnabled','postReplies','hideAbusive','liveChat','liveWelcome','weeklyReport'];
+const texts=['channelName','aiName','ownerName','topic','audience','style','calling','languages','nudge','priceInfo'];
+const links=['description','course','website','telegram','instagram'];
+let S;
+function faqRow(f={q:'',a:''}){const d=document.createElement('div');d.className='faq';
+ d.innerHTML='<input placeholder="Sawal"><input placeholder="Jawab"><button class="btn ghost" type="button">✕</button>';
+ d.children[0].value=f.q;d.children[1].value=f.a;d.children[2].onclick=()=>d.remove();$('faqs').appendChild(d)}
+function fill(t){S=t;const s=t.settings,p=s.profile;
+ $('title').textContent=t.channelTitle||'Dashboard';
+ const live=s.botEnabled&&s.postReplies;$('status').textContent=!s.botEnabled?'Bot OFF':live?'LIVE — replies post ho rahe hain':'DRY RUN — post nahi ho raha';$('status').className='pill '+(!s.botEnabled?'bad':live?'ok':'warn');
+ $('usage').textContent=`Aaj: ${t.usage.units}/${t.usage.budget} API units · ${t.usage.ai_replies}/${t.usage.aiLimit} AI replies`;
+ if(t.sheetUrl){$('sheet').href=t.sheetUrl;$('sheet').style.display='inline-block'}
+ checks.forEach(k=>$(k).checked=!!s[k]);texts.forEach(k=>$(k).value=p[k]||'');links.forEach(k=>$('l_'+k).value=p.links[k]||'');
+ $('faqs').innerHTML='';(p.faqs||[]).forEach(faqRow);$('extraRules').value=(p.extraRules||[]).join('\n');
+ $('forwardPatterns').value=s.forwardPatterns.join(', ');$('blockedWords').value=s.blockedWords.join(', ');
+ $('ownerEmail').value=s.ownerEmail||'';$('webhookUrl').value=s.webhookUrl||''}
+const csv=v=>v.split(',').map(x=>x.trim()).filter(Boolean);
+function collect(){const o={};checks.forEach(k=>o[k]=$(k).checked);
+ o.ownerEmail=$('ownerEmail').value;o.webhookUrl=$('webhookUrl').value;o.forwardPatterns=csv($('forwardPatterns').value);o.blockedWords=csv($('blockedWords').value);
+ const p={links:{}};texts.forEach(k=>p[k]=$(k).value);links.forEach(k=>p.links[k]=$('l_'+k).value);
+ p.faqs=[...$('faqs').children].map(d=>({q:d.children[0].value,a:d.children[1].value}));
+ p.extraRules=$('extraRules').value.split('\n').map(x=>x.trim()).filter(Boolean);o.profile=p;return o}
+async function rows(){const r=await api('/api/comments');const tb=$('rows');tb.innerHTML='';
+ r.forEach(c=>{const tr=document.createElement('tr');
+  [new Date(c.created_at).toLocaleString('en-IN'),c.viewer_name,c.body,c.reply||'—',c.status+(c.is_lead?' · lead':'')].forEach(v=>{const td=document.createElement('td');td.textContent=v??'';tr.appendChild(td)});tb.appendChild(tr)})}
+$('addFaq').onclick=()=>faqRow();
+$('save').onclick=async()=>{try{if($('postReplies').checked&&!confirm('Replies sach me YouTube pe post honge. Pehle "Try it" me test kar liya?'))return;fill(await api('/api/settings',{method:'PUT',body:JSON.stringify(collect())}));toast('Saved ✅')}catch(e){toast(e.message)}};
+$('tryBtn').onclick=async()=>{$('tryOut').textContent='soch raha hu…';try{await api('/api/settings',{method:'PUT',body:JSON.stringify(collect())});const r=await api('/api/try',{method:'POST',body:JSON.stringify({text:$('tryText').value})});
+ $('tryOut').textContent=(r.reply?`Reply: ${r.reply}\n`:'')+`Action: ${r.action}${r.category?' · '+r.category:''}${r.is_lead?' · LEAD':''}${r.note?'\n'+r.note:''}`}catch(e){$('tryOut').textContent='Error: '+e.message}};
+$('refresh').onclick=rows;
+$('report').onclick=async()=>{toast('Report ban rahi hai…');try{await api('/api/report-now',{method:'POST'});toast('Email bhej diya ✅')}catch(e){toast(e.message)}};
+$('logout').onclick=async()=>{await fetch('/auth/logout',{method:'POST'});location='/'};
+$('del').onclick=async()=>{if(!confirm('Pakka? Token revoke hoga aur saara data delete ho jayega.'))return;await api('/api/account',{method:'DELETE'});location='/'};
+api('/api/me').then(fill).then(rows);
+</script></body></html>

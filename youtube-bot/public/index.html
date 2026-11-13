@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YouTube AI Assistant</title><link rel="stylesheet" href="/style.css"></head>
+<body><div class="wrap">
+<div class="hero">
+  <span class="pill warn">Free beta</span>
+  <h1>Apne YouTube channel ko 24x7 handle karne wala AI</h1>
+  <p>Comments ka turant reply, live chat me welcome, gali wale comments ka safe handling, leads ki Google Sheet, aur har hafte ek growth report — sab aapke apne style me. Kisi bhi YouTuber ke liye.</p>
+  <p id="msg" class="pill bad" style="display:none"></p>
+  <p><a class="btn gold" href="/auth/google">Google se Login karo &amp; channel connect karo</a></p>
+  <p class="mut" style="font-size:.85rem">Pehle DRY-RUN mode: AI sirf dikhata hai ki wo kya reply karega. Aap khush ho tab hi LIVE karo.</p>
+</div>
+<div class="grid3">
+  <div class="card"><h2>⚡ 2 minute me reply</h2><p class="mut">Har ~90 sec me naye comments check hote hain. Ek comment pe kabhi 2 baar reply nahi.</p></div>
+  <div class="card"><h2>🛡️ Safe by design</h2><p class="mut">Jhooti price/link nahi. Phone, email, keys kabhi nahi. Gali pe jhagda nahi — hide ya shant reply.</p></div>
+  <div class="card"><h2>📈 Leads &amp; Report</h2><p class="mut">Har lead aapki apni Google Sheet me. Collab/paid promotion aapko email pe forward. Weekly report Hinglish me.</p></div>
+</div>
+<div class="card"><h2>Kaise kaam karta hai</h2>
+<ol><li>Google se login karo (YouTube comments manage karne ki permission)</li><li>Dashboard me apna style, price, links, FAQs bharo</li><li>"Try it" me test comments daalo, reply check karo</li><li>Sab theek lage to Bot ON + "Replies post karo" ON</li></ol>
+<p class="mut">Aap kabhi bhi dashboard se "Disconnect &amp; saara data delete" kar sakte ho, ya <a href="https://myaccount.google.com/permissions" rel="noopener">Google permissions</a> se access hata sakte ho.</p></div>
+<footer><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></footer>
+</div>
+<script>
+const m={cancelled:'Login cancel ho gaya.',no_channel:'Is Google account me YouTube channel nahi mila.',error:'Kuch gadbad hui, dobara try karo.',no_refresh:'Permission poori nahi mili, dobara login karke sab allow karo.',full:'Beta abhi full hai.'};
+const k=new URLSearchParams(location.search).get('msg');if(k&&m[k]){const e=document.getElementById('msg');e.textContent=m[k];e.style.display='inline-block'}
+</script></body></html>
