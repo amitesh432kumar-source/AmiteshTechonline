@@ -392,23 +392,47 @@ function openRegister() {
     m.close();
     payWindow({
       title: "Registration fee", amount: fee(), note: "Amitesh Tech registration",
+      pp: { type: "registration", form: f },
       save: async () => { await api("register", f); await syncMe(); },
       waText: `Hello Amitesh Tech, I have paid the registration fee.\nName: ${f.name}\nLevel: ${f.level}\nEmail: ${S.user.email}\nPhone: ${f.phone}\nAmount: ${rs(fee())}\nScreenshot attached.`
     });
   };
 }
 
-function payWindow({ title, amount, note, save, waText }) {
+let ppSdk = null;
+function loadPayPal(cfg) {
+  if (window.paypal) return Promise.resolve(window.paypal);
+  return ppSdk ||= new Promise((ok, no) => {
+    const sc = document.createElement("script");
+    sc.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(cfg.client_id)}&currency=${encodeURIComponent(cfg.currency)}&components=buttons&enable-funding=card`;
+    sc.onload = () => window.paypal ? ok(window.paypal) : no(new Error("PayPal failed to load")); sc.onerror = () => { ppSdk = null; no(new Error("PayPal failed to load")); };
+    document.head.appendChild(sc);
+  });
+}
+function payWindow({ title, amount, note, save, waText, pp }) {
   const upi = S.settings.upi || {};
   const link = upi.id ? `upi://pay?pa=${encodeURIComponent(upi.id)}&pn=${encodeURIComponent(upi.name || "Amitesh Tech")}&am=${amount}&cu=INR&tn=${encodeURIComponent(note || "Amitesh Tech")}` : "";
   const m = modal(`
     <h2>Pay ${rs(amount)}</h2><p class="muted small" style="margin-top:-6px">${esc(title)}</p>
     <div class="row sp"><span class="small muted">Complete payment within</span><span class="timer" id="tm">5:00</span></div>
+    ${pp ? `<div id="ppw" style="margin:12px 0"><div class="small muted" style="margin-bottom:6px">Pay with PayPal, debit card or credit card</div><div id="ppb"></div></div>` : ""}
     <div class="qr" id="qr" style="margin:12px 0" aria-label="UPI QR code"></div>
     ${link ? `<p class="center small muted" style="margin:0 0 10px">Scan with any UPI app, or</p><div class="center"><a class="btn navy" href="${esc(link)}">Pay in my UPI app</a></div>` : ""}
     <p class="small muted">Some UPI apps may warn about or ignore the pre-filled amount. Please make sure you pay exactly <b>${rs(amount)}</b>.</p>
     <button class="btn wa" id="paid" style="width:100%">I have paid. Send screenshot on WhatsApp</button>`);
   const qr = $("#qr", m);
+  if (pp) api("paypal_config").then(async cfg => {
+    if (!cfg.enabled) return $("#ppw", m)?.remove();
+    const pay = await loadPayPal(cfg);
+    pay.Buttons({
+      createOrder: async () => (await api("paypal_order", pp)).id,
+      onApprove: async d => {
+        await api("paypal_capture", { order_id: d.orderID }); clearInterval(iv); await syncMe();
+        $(".mb", m).innerHTML = `<h2>Payment successful ✅</h2><p>Thank you! Your payment was received and your access is unlocked.</p>`; route();
+      },
+      onError: e => toast(e?.message || "PayPal payment failed", true)
+    }).render("#ppb");
+  }).catch(e => { const w = $("#ppw", m); if (w) w.innerHTML = `<p class="small muted">PayPal is unavailable right now (${esc(e.message)}). Use UPI below.</p>`; });
   if (link) {
     import("https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/+esm").then(mod => {
       const gen = mod.default || mod; const q = gen(0, "M"); q.addData(link); q.make(); qr.innerHTML = q.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
@@ -446,6 +470,7 @@ async function buy(kind, id) {
   if (amount === 0) { try { await api("purchase", { kind, id }); await syncMe(); toast("Enrolled ✅"); route(); } catch (e) { toast(e.message, true); } return; }
   payWindow({
     title: it.title, amount, note: it.title.slice(0, 40),
+    pp: { type: "purchase", kind, id },
     save: async () => { await api("purchase", { kind, id }); await syncMe(); },
     waText: `Hello Amitesh Tech, I have paid for "${it.title}".\nName: ${S.me?.registration?.name || S.user.displayName || ""}\nEmail: ${S.user.email}\nAmount: ${rs(amount)}\nScreenshot attached.`
   });
@@ -776,6 +801,8 @@ function tabSettings(el) {
     <div class="card pad" style="margin-top:18px"><h3>PayPal credentials</h3>
     <div class="small muted">From developer.paypal.com → Apps &amp; Credentials. The secret is stored privately and never shown again.</div>
     <label for="pm">Mode</label><select id="pm"><option value="sandbox" ${pp.mode !== "live" ? "selected" : ""}>Sandbox (testing)</option><option value="live" ${pp.mode === "live" ? "selected" : ""}>Live</option></select>
+    <div class="row" style="gap:12px"><div style="flex:1"><label for="pcu">Currency</label><input id="pcu" maxlength="3" value="${esc(pp.currency || "INR")}" placeholder="INR"></div>
+    <div style="flex:1"><label for="prt">Rupees per 1 unit (1 for INR)</label><input id="prt" type="number" step="any" min="0" value="${esc(pp.rate || 1)}"></div></div>
     <label for="pc">Client ID</label><input id="pc" value="${esc(pp.client_id)}" autocomplete="off" placeholder="PayPal Client ID">
     <label for="ps">Client Secret</label><input id="ps" type="password" value="" autocomplete="new-password" placeholder="${pp.has_secret ? "Saved ✓ — leave blank to keep it" : "PayPal Client Secret"}">
     <div style="margin-top:16px"><button class="btn" id="sp">Save PayPal credentials</button></div></div>`;
@@ -805,7 +832,7 @@ function tabSettings(el) {
     toast("Webhooks saved ✅");
   });
   $("#sp", el).onclick = e => busy(e.target, async () => {
-    const r = await api("set_paypal", { client_id: $("#pc", el).value.trim(), client_secret: $("#ps", el).value.trim(), mode: $("#pm", el).value });
+    const r = await api("set_paypal", { client_id: $("#pc", el).value.trim(), client_secret: $("#ps", el).value.trim(), mode: $("#pm", el).value, currency: $("#pcu", el).value.trim(), rate: Number($("#prt", el).value) || 1 });
     if (r.paypal?.client_id !== $("#pc", el).value.trim()) throw new Error("PayPal credentials were not stored");
     await reloadAdmin(); toast("PayPal credentials saved ✅");
   });
