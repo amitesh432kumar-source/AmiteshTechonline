@@ -64,7 +64,20 @@ const needAdmin = (u: User | null): User => { if (!need(u).admin) throw new Fail
 // ---------- helpers ----------
 async function settings() { return (q(await sb.from("settings").select("data").eq("id", 1).maybeSingle()) as any)?.data ?? {}; }
 async function hooks() { return (q(await sb.from("admin_config").select("data").eq("id", 1).maybeSingle()) as any)?.data ?? {}; }
-const paypalView = (h: any) => ({ client_id: h.paypal?.client_id ?? "", mode: h.paypal?.mode ?? "sandbox", has_secret: !!h.paypal?.client_secret });
+const paypalView = (h: any) => ({ client_id: h.paypal?.client_id ?? "", mode: h.paypal?.mode ?? "sandbox", has_secret: !!h.paypal?.client_secret, currency: h.paypal?.currency ?? "INR", rate: h.paypal?.rate ?? 1 });
+const ppBase = (mode: string) => mode === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
+async function ppCall(h: any, path: string, body?: unknown) {
+  const c = h.paypal;
+  if (!c?.client_id || !c?.client_secret) throw new Fail("PayPal is not set up", 400);
+  const base = ppBase(c.mode);
+  const tr = await fetch(`${base}/v1/oauth2/token`, { method: "POST", headers: { Authorization: "Basic " + btoa(`${c.client_id}:${c.client_secret}`), "Content-Type": "application/x-www-form-urlencoded" }, body: "grant_type=client_credentials" });
+  const tj = await tr.json().catch(() => ({}));
+  if (!tr.ok || !tj.access_token) throw new Fail("PayPal login failed. Check Client ID / Secret and Sandbox/Live mode in admin.", 502);
+  const r = await fetch(base + path, { method: "POST", headers: { Authorization: "Bearer " + tj.access_token, "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { console.error("paypal", path, JSON.stringify(j)); throw new Fail(j.details?.[0]?.description || j.message || "PayPal error", 502); }
+  return j;
+}
 function fire(kind: "automation" | "welcome", payload: Record<string, unknown>) {
   const p = (async () => {
     try {
@@ -146,6 +159,47 @@ const S: Record<string, (u: User | null, b: any) => Promise<unknown>> = {
     fire("automation", { event: "registration_submitted", ...base });
     if (!existing[0]) fire("welcome", { name: row.name, email: row.email });
     return { registration: reg };
+  },
+
+  async paypal_config() {
+    const p = paypalView(await hooks());
+    return p.client_id && p.has_secret ? { enabled: true, client_id: p.client_id, currency: p.currency } : { enabled: false };
+  },
+
+  async paypal_order(u0, b) {
+    const u = need(u0); const h = await hooks(); const pv = paypalView(h);
+    let amount = 0, custom = "", desc = "Amitesh Tech";
+    if (b.type === "registration") {
+      const r = (await S.register(u, b.form ?? {})) as any;
+      if (r.registration.status === "verified") throw new Fail("Already registered");
+      amount = r.registration.fee; custom = `reg:${r.registration.id}`; desc = "Registration fee";
+    } else {
+      const r = (await S.purchase(u, b)) as any;
+      if (r.enrolled) throw new Fail("Already enrolled");
+      amount = r.purchase.amount; custom = `pur:${r.purchase.id}`; desc = String(r.purchase.title).slice(0, 120);
+    }
+    const value = (amount / (Number(pv.rate) || 1)).toFixed(2);
+    const o = await ppCall(h, "/v2/checkout/orders", { intent: "CAPTURE", purchase_units: [{ custom_id: custom, description: desc, amount: { currency_code: pv.currency, value } }] });
+    return { id: o.id };
+  },
+
+  async paypal_capture(u0, b) {
+    const u = need(u0); const h = await hooks();
+    const oid = str(b.order_id, 64, true, "Order");
+    const cap = await ppCall(h, `/v2/checkout/orders/${encodeURIComponent(oid)}/capture`);
+    const unit = cap.purchase_units?.[0], c = unit?.payments?.captures?.[0];
+    if (cap.status !== "COMPLETED" || c?.status !== "COMPLETED") throw new Fail("Payment was not completed. You were not charged for an approved order.", 402);
+    const [kind, id] = String(c.custom_id ?? unit?.custom_id ?? "").split(":");
+    if (kind === "pur") {
+      const p = q(await sb.from("purchases").select("*").eq("id", uuid(id)).maybeSingle()) as any;
+      if (!p || p.email !== u.email) throw new Fail("Payment does not match your account. Contact support with order " + oid, 403);
+      await A.decide_purchase(u, { id: p.id, approve: true });
+    } else if (kind === "reg") {
+      const r = q(await sb.from("registrations").select("id,email").eq("id", uuid(id)).maybeSingle()) as any;
+      if (!r || r.email !== u.email) throw new Fail("Payment does not match your account. Contact support with order " + oid, 403);
+      await A.verify_registration(u, { id: r.id });
+    } else throw new Fail("Unknown payment. Contact support with order " + oid);
+    return { ok: true };
   },
 
   async content(u0, b) {
@@ -381,7 +435,11 @@ const A: Record<string, (u: User | null, b: any) => Promise<unknown>> = {
     const mode = b.mode === "live" ? "live" : "sandbox";
     // blank secret = keep the one already saved (the secret is never sent back to the browser)
     const secret = str(b.client_secret, 300, false, "PayPal Client Secret").trim() || cur.paypal?.client_secret || "";
-    q(await sb.from("admin_config").upsert({ id: 1, data: { ...cur, paypal: { client_id: id, client_secret: secret, mode } } }));
+    const currency = (str(b.currency, 3, false, "Currency") || "INR").toUpperCase();
+    if (!/^[A-Z]{3}$/.test(currency)) throw new Fail("Currency must be a 3-letter code like INR or USD");
+    const rate = Number(b.rate) || 1;
+    if (rate <= 0 || rate > 100000) throw new Fail("Rate must be above 0");
+    q(await sb.from("admin_config").upsert({ id: 1, data: { ...cur, paypal: { client_id: id, client_secret: secret, mode, currency, rate } } }));
     return { paypal: paypalView(await hooks()) };
   },
 
