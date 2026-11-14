@@ -64,6 +64,7 @@ const needAdmin = (u: User | null): User => { if (!need(u).admin) throw new Fail
 // ---------- helpers ----------
 async function settings() { return (q(await sb.from("settings").select("data").eq("id", 1).maybeSingle()) as any)?.data ?? {}; }
 async function hooks() { return (q(await sb.from("admin_config").select("data").eq("id", 1).maybeSingle()) as any)?.data ?? {}; }
+const paypalView = (h: any) => ({ client_id: h.paypal?.client_id ?? "", mode: h.paypal?.mode ?? "sandbox", has_secret: !!h.paypal?.client_secret });
 function fire(kind: "automation" | "welcome", payload: Record<string, unknown>) {
   const p = (async () => {
     try {
@@ -276,6 +277,7 @@ const A: Record<string, (u: User | null, b: any) => Promise<unknown>> = {
       testimonials: q(testimonials), faqs: q(faqs), registrations: R,
       purchases: (q(purchases) as any[]).map((p) => ({ ...p, phone: phone.get(p.email) ?? "" })),
       posts: q(posts), members: q(members), settings: set, hooks: { automation: h.automation ?? "", welcome: h.welcome ?? "" },
+      paypal: paypalView(h),
     };
   },
 
@@ -368,8 +370,19 @@ const A: Record<string, (u: User | null, b: any) => Promise<unknown>> = {
   },
   async set_hooks(_u, b) {
     const a = url(b.automation, "Automation address"), w = url(b.welcome, "Welcome email address");
-    q(await sb.from("admin_config").upsert({ id: 1, data: { automation: a, welcome: w } }));
-    return { hooks: await hooks() };
+    const cur = await hooks();
+    q(await sb.from("admin_config").upsert({ id: 1, data: { ...cur, automation: a, welcome: w } }));
+    const h = await hooks();
+    return { hooks: { automation: h.automation ?? "", welcome: h.welcome ?? "" } };
+  },
+  async set_paypal(_u, b) {
+    const cur = await hooks();
+    const id = str(b.client_id, 200, false, "PayPal Client ID").trim();
+    const mode = b.mode === "live" ? "live" : "sandbox";
+    // blank secret = keep the one already saved (the secret is never sent back to the browser)
+    const secret = str(b.client_secret, 300, false, "PayPal Client Secret").trim() || cur.paypal?.client_secret || "";
+    q(await sb.from("admin_config").upsert({ id: 1, data: { ...cur, paypal: { client_id: id, client_secret: secret, mode } } }));
+    return { paypal: paypalView(await hooks()) };
   },
 
   async upload(_u, b) {
