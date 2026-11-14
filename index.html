@@ -753,7 +753,7 @@ function tabContent(el) {
 
 /* ----- Settings tab ----- */
 function tabSettings(el) {
-  const s = S.A.settings, h = S.A.hooks; const photos = [...(s.founder?.photos || [])];
+  const s = S.A.settings, h = S.A.hooks, pp = S.A.paypal || {}; const photos = [...(s.founder?.photos || [])];
   el.innerHTML = `<div class="card pad"><h3>Offer &amp; fee</h3>
     <label for="sd">Discount % (0 to 90)</label><input id="sd" type="number" min="0" max="90" value="${esc(s.discount?.percent ?? 0)}">
     <label for="sdl">Discount label</label><input id="sdl" maxlength="80" value="${esc(s.discount?.label || "")}" placeholder="e.g. Chhath Puja offer">
@@ -772,7 +772,13 @@ function tabSettings(el) {
     <div class="card pad" style="margin-top:18px"><h3>Automations (optional)</h3>
     <label for="h1">Make.com / n8n webhook (registration &amp; payment events)</label><input id="h1" value="${esc(h.automation)}" placeholder="https://…">
     <label for="h2">Welcome email webhook (Grok automation, receives name and email)</label><input id="h2" value="${esc(h.welcome)}" placeholder="https://…">
-    <div style="margin-top:16px"><button class="btn" id="sh">Save webhooks</button></div></div>`;
+    <div style="margin-top:16px"><button class="btn" id="sh">Save webhooks</button></div></div>
+    <div class="card pad" style="margin-top:18px"><h3>PayPal credentials</h3>
+    <div class="small muted">From developer.paypal.com → Apps &amp; Credentials. The secret is stored privately and never shown again.</div>
+    <label for="pm">Mode</label><select id="pm"><option value="sandbox" ${pp.mode !== "live" ? "selected" : ""}>Sandbox (testing)</option><option value="live" ${pp.mode === "live" ? "selected" : ""}>Live</option></select>
+    <label for="pc">Client ID</label><input id="pc" value="${esc(pp.client_id)}" autocomplete="off" placeholder="PayPal Client ID">
+    <label for="ps">Client Secret</label><input id="ps" type="password" value="" autocomplete="new-password" placeholder="${pp.has_secret ? "Saved ✓ — leave blank to keep it" : "PayPal Client Secret"}">
+    <div style="margin-top:16px"><button class="btn" id="sp">Save PayPal credentials</button></div></div>`;
   const drawPh = () => {
     $("#ph", el).innerHTML = photos.map((u, i) => `<div class="row" style="margin-bottom:6px"><img src="${esc(u)}" alt="" width="56" height="56" style="object-fit:cover;border-radius:8px"><span class="small muted" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Photo ${i + 1}</span>
       ${i > 0 ? `<button class="btn sm ghost" data-l="${i}">← Move left</button>` : ""}<button class="btn sm danger" data-x="${i}">Remove</button></div>`).join("");
@@ -797,6 +803,11 @@ function tabSettings(el) {
     const r = await api("set_hooks", { automation: $("#h1", el).value.trim(), welcome: $("#h2", el).value.trim() });
     if (r.hooks?.automation !== $("#h1", el).value.trim() || r.hooks?.welcome !== $("#h2", el).value.trim()) throw new Error("Webhooks were not stored");
     toast("Webhooks saved ✅");
+  });
+  $("#sp", el).onclick = e => busy(e.target, async () => {
+    const r = await api("set_paypal", { client_id: $("#pc", el).value.trim(), client_secret: $("#ps", el).value.trim(), mode: $("#pm", el).value });
+    if (r.paypal?.client_id !== $("#pc", el).value.trim()) throw new Error("PayPal credentials were not stored");
+    await reloadAdmin(); toast("PayPal credentials saved ✅");
   });
 }
 
